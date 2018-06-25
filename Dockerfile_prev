@@ -1,0 +1,15 @@
+FROM python:3.6-alpine
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY backend/ /app/backend/
+COPY ssl /app/ssl
+COPY dist /app/dist
+
+RUN pip install -r /app/backend/requirements.txt
+
+ENV FLASK_APP=app.py
+ENV FLASK_DEBUG=1 
+ENTRYPOINT ["python"]
+CMD ["backend/app.py"]

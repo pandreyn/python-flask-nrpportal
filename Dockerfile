@@ -1,19 +1,21 @@
-FROM python:3.6
+FROM alpine:3.6
 
-RUN mkdir /app
-WORKDIR /app
-COPY backend/requirements.txt /app/backend/
-COPY ssl /app/ssl
-COPY dist /app/dist
-COPY app.py /app/
+RUN adduser nrpportal -u 10000 -D
+RUN apk add --no-cache python3
+RUN apk add --update py-pip
+RUN pip install --upgrade pip
+RUN chown -R nrpportal:nrpportal /home/nrpportal
 
-RUN pwd
-RUN ls -l 
-RUN pip install -r /app/backend/requirements.txt
-RUN ls -l 
+WORKDIR /home/nrpportal/
+COPY backend/ /home/nrpportal/backend/
+COPY ssl /home/nrpportal/ssl
+COPY dist /home/nrpportal/dist
 
-#WORKDIR /app
+RUN pip install -r /home/nrpportal/backend/requirements.txt
+
+USER nrpportal
+
 ENV FLASK_APP=app.py
 ENV FLASK_DEBUG=1 
 ENTRYPOINT ["python"]
-CMD ["app.py"]
+CMD ["backend/app.py"]

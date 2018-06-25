@@ -1,6 +1,9 @@
 .vscode
 /dist/
-/__pycache__/
+*.pyc
+__pycache__/
 /postgres-dat/a
 /pshScripts/
-/backend/venv/
+/venv/
+/postgres-data/
+/leetcode/
