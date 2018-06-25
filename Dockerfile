@@ -1,6 +1,9 @@
 FROM alpine:3.6
 
-RUN adduser nrpportal -u 10000 -D
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache bash \
+    && adduser nrpportal -u 10000 -D
 RUN apk add --no-cache python3
 RUN apk add --update py-pip
 RUN pip install --upgrade pip
