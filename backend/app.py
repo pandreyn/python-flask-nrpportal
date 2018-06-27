@@ -16,7 +16,7 @@ context.load_cert_chain('./ssl/cert.pem', './ssl/key.pem')
 app = Flask(__name__,
             static_folder = "../dist/static",
             template_folder = "../dist")
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 # cache = redis.Redis(host='redis', port=6379)            
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}}) 
