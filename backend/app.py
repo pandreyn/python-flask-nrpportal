@@ -1,4 +1,5 @@
 import ssl
+import os
 
 from flask import Flask, render_template, jsonify
 from random import randint
@@ -16,6 +17,8 @@ context.load_cert_chain('./ssl/cert.pem', './ssl/key.pem')
 app = Flask(__name__,
             static_folder = "../dist/static",
             template_folder = "../dist")
+
+app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 # cache = redis.Redis(host='redis', port=6379)            
 
@@ -38,6 +41,7 @@ def catch_all(path):
     return render_template("index.html")
 
 if __name__ == "__main__":
+    print(os.environ['APP_SETTINGS'])
     from db import db
     db.init_app(app)
     app.run(host='0.0.0.0', port=5000, debug=True, ssl_context=context)

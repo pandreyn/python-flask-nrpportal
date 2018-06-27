@@ -1,0 +1,1 @@
+start only db: docker-compose -f docker-compose.onlyDB.yml up

@@ -1,0 +1,25 @@
+version: '3'
+services:
+  # web:
+  #   build: .
+  #   ports:
+  #    - "5000:5000"
+  
+  # redis:
+  #   image: "redis:alpine" 
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "flaskapp"
+      POSTGRES_PASSWORD: "pass2"
+      POSTGRES_DB: pgdb
+
+volumes:
+  postgresql-volume:
+    external: true
+ 
