@@ -1,17 +1,4 @@
-FROM alpine:3.7
-
-RUN apk add --update build-base 
-
-RUN apk add --no-cache python3 && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache
-
-RUN pip install virtualenv \
-  && rm -rf /var/cache/apk/*
+FROM python:3-alpine3.7
 
 RUN adduser nrpportal -u 10000 -D
 RUN chown -R nrpportal:nrpportal /home/nrpportal
@@ -21,7 +8,11 @@ COPY backend/ /home/nrpportal/backend/
 COPY ssl /home/nrpportal/ssl
 COPY dist /home/nrpportal/dist
 
-RUN pip install -r /home/nrpportal/backend/requirements.txt
+RUN apk update && \
+    apk add postgresql-libs && \
+    apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
+    python3 -m pip install -r /home/nrpportal/backend/requirements.txt --no-cache-dir && \
+    apk --purge del .build-deps
 
 USER nrpportal
 
