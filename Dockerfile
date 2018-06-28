@@ -11,7 +11,7 @@ COPY dist /home/nrpportal/dist
 RUN apk update && \
     apk add postgresql-libs && \
     apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
-    python3 -m pip install -r /home/nrpportal/backend/requirements.txt --no-cache-dir && \
+    python -m pip install -r /home/nrpportal/backend/requirements.txt --no-cache-dir && \
     apk --purge del .build-deps
 
 USER nrpportal
