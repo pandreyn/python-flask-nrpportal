@@ -16,9 +16,10 @@ RUN apk update && \
 
 USER nrpportal
 
+ENV FLASK_ENV=Development
 ENV FLASK_APP=app.py
 ENV FLASK_DEBUG=1
-ENV APP_SETTINGS="config.DevelopmentConfig"
-ENV DATABASE_URL="postgres://flaskapp:pass2@localhost:5432/pgdb"
+ENV APP_SETTINGS=config.DevelopmentConfig
+ENV DATABASE_URL=postgres://flaskapp:pass2@db:5432/pgdb
 ENTRYPOINT ["python"]
 CMD ["backend/app.py"]
